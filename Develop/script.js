@@ -4,26 +4,13 @@ var quizDiv = document.querySelector("#quiz");
 var currentQuestion = document.querySelector("#current-question");
 var answerGrid = document.querySelector("#answer-grid");
 var optionButtons = document.querySelector(".option-btn")
+var inputSection = document.querySelector(".input-page")
 
-let currentQuestionIndex;
-
+var currentQuestionIndex;
+var currentAnswerIndex;
 startBtn.addEventListener("click", startQuiz);
-
-
-var option0 = document.querySelector("#option0")
-var textOption0 = option0.textContent
-console.log(textOption0)
-var option1 = document.querySelector("#option1")
-var textOption1 = option1.textContent
-console.log(textOption1)
-var option2 = document.querySelector("#option2")
-var textOption2 = option2.innerHTML
-console.log(textOption2)
-var option3 = document.querySelector("#option3")
-var textOption3 = option3.textContent
-console.log(textOption3)
-
-
+optionButtons.addEventListener("click", updateQuestion)
+optionButtons.addEventListener("click", checkAnswer);
 
 
 function startQuiz () {
@@ -32,33 +19,73 @@ function startQuiz () {
     // option1.textContent = question1.option2;
     // currentQuestion.textContent = questions[0].question
     // optionButtons.textContent = questions[0].answers.innerText
-    currentQuestionIndex = 0;
-    updateQuestion()
+    currentQuestionIndex = -1;
+    updateQuestion();
 }
 
-
+// After we start the quiz, we run the updateQuestion() function, this removes any children currently in the quizGrid, and adds new question 
 function updateQuestion() {
+    resetState()
     showQuestion(questions[currentQuestionIndex])
+
 }
+
+function navigateToInput() {
+    quizDiv.classList.add("hide");
+    inputSection.classList.remove("hide")
+    // var inputPage = document.createElement("p");
+    // inputPage.innerText = "Test";
+    // console.log(inputPage);
+    // inputSection.appendChild(inputPage);
+}
+
+// We pass in the current index of questions, then we set the text content of the currentQuestion to the currentindex.question in the questions object, then we create a button element and set the text of that button to the answers located at the current index of the questions object, add an event listener to the buttons in the quizGrid that checks the answer
 
 function showQuestion(question) {
+    if (currentQuestionIndex < questions.length) {
     currentQuestion.textContent = question.question
     question.answers.forEach(answer => {
         var button = document.createElement("button")
         button.innerText = answer.text
         button.classList.add("btn", "btn-secondary", "btn-md", "m-1", "text-left")
-        button.addEventListener("click", selectAnswer)
+        button.addEventListener("click", checkAnswer)
         answerGrid.appendChild(button)
+        
     })
+}
+    else {
+        navigateToInput()
+
+    }
 
 }
 
+// Need to access index of answers in a for loop!!!! 
 
-function selectAnswer() {
-
+function checkAnswer(event) {
+    var element = event.target
+    var answers = questions[currentQuestionIndex].answers
+    // Array.from(quizGrid.Children)
+    // answer.textContent = question.answer
+    for (var i = 0; i < answers.length; i++) {
+    if (element.matches("button") === true && element.textContent === correctAnswers[i]) {
+        alert("correct")
+    }
+    
+    }
+    updateQuestion()
 }
 
-// optionBtn.addEventListener("click", checkAnswer);
+// if (element.matches("button") === true && answers[i].correct === true) {
+
+
+// If there is an answer button element inside of the answer grid, remove it; basically loop through until there are no more firstChild elements
+function resetState () {
+    while (answerGrid.firstChild) {
+        answerGrid.removeChild(answerGrid.firstChild)
+    }
+    currentQuestionIndex++
+}
 
 
 const questions = [
@@ -69,17 +96,45 @@ const questions = [
         {text: "2. booleans", correct: false},
         {text: "3. alerts", correct: true},
         {text: "4. numbers", correct: false}
-    ]
+        ]
 
-}
+    },
+    {
+        question: "What is 2 + 2",
+        answers: [
+        {text: "1. one", correct: false},
+        {text: "2. two", correct: true},
+        {text: "3. four", correct: false},
+        {text: "4. eight", correct: false}
+        ]
+
+    },
+    {
+        question: "Question 3",
+        answers: [
+        {text: "1. blah", correct: false},
+        {text: "2. ok", correct: true},
+        {text: "3. yep", correct: false},
+        {text: "4. fine", correct: false}
+        ]
+
+    },
+    {
+        question: "Question 4",
+        answers: [
+        {text: "1. red", correct: false},
+        {text: "2. blue", correct: true},
+        {text: "3. green", correct: false},
+        {text: "4. purple", correct: false}
+        ]
+
+    }
 ]
+
+var correctAnswers = ["3. alerts", "2. two", "1. blah", "4. purple"]
+
+
 console.log(questions)
-
-
-
-
-
-
 
 
 
