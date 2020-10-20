@@ -22,15 +22,15 @@
                 </div>
             </div>
         </section>
-        <section class="container col-md-6 pt-5" id="quiz">
+        <section class="container col-md-6 pt-5 hide" id="quiz">
             <div>
-                <h3 class="m-3 pb-2">Quiz Question</h3>
+                <h3 class="m-3 pb-2" id="current-question">Quiz Question</h3>
                 <row class="d-flex justify-content-start">
-                    <div class="buttons col-md-3 d-flex flex-column">
-                        <button type="button" id="btn0" class="btn btn-secondary btn-md m-1 text-left"><span id="option 0">1. Option 1</span></button>
-                        <button type="button" id="btn1" class="btn btn-secondary btn-md m-1 text-left"><span id="option1"></span>2. Option 2</button>
-                        <button type="button" id="btn2" class="btn btn-secondary btn-md m-1 text-left"><span id="option2"></span>3. Option 3</button>
-                        <button type="button" id="btn3" class="btn btn-secondary btn-md m-1 text-left"><span id="option3"></span>4. Option 4</button>
+                    <div class="buttons col-md-3 d-flex flex-column" id="answer-grid">
+                        <button type="button" id="btn0" class="btn btn-secondary btn-md m-1 text-left option-btn"><span id="option0">1. Option 1</span></button>
+                        <button type="button" id="btn1" class="btn btn-secondary btn-md m-1 text-left option-btn"><span id="option1">2. Option 2</span></button>
+                        <button type="button" id="btn2" class="btn btn-secondary btn-md m-1 text-left option-btn"><span id="option2">3. Option 3</span></button>
+                        <button type="button" id="btn3" class="btn btn-secondary btn-md m-1 text-left option-btn"><span id="option3">4. Option 4</span></button>
                     </div>
                 </row>
         </section>

@@ -1,37 +1,154 @@
-var startPage = document.querySelector("#start-page")
-var startBtn = document.querySelector("#start-btn")
-var quizQuestion = document.querySelector("#quiz")
-quizQuestion.style.display = "none"
-startBtn.addEventListener("click", startQuiz)
+var startPage = document.querySelector("#start-page");
+var startBtn = document.querySelector("#start-btn");
+var quizDiv = document.querySelector("#quiz");
+var currentQuestion = document.querySelector("#current-question");
+var answerGrid = document.querySelector("#answer-grid");
+var optionButtons = document.querySelector(".option-btn")
+
+let currentQuestionIndex;
+
+startBtn.addEventListener("click", startQuiz);
+
+
+var option0 = document.querySelector("#option0")
+var textOption0 = option0.textContent
+console.log(textOption0)
+var option1 = document.querySelector("#option1")
+var textOption1 = option1.textContent
+console.log(textOption1)
+var option2 = document.querySelector("#option2")
+var textOption2 = option2.innerHTML
+console.log(textOption2)
+var option3 = document.querySelector("#option3")
+var textOption3 = option3.textContent
+console.log(textOption3)
+
+
+
 
 function startQuiz () {
-    quizQuestion.style.display = "block"
-    startPage.style.display = "none"
+    startPage.style.display = "none";
+    quizDiv.classList.remove("hide");
+    // option1.textContent = question1.option2;
+    // currentQuestion.textContent = questions[0].question
+    // optionButtons.textContent = questions[0].answers.innerText
+    currentQuestionIndex = 0;
+    updateQuestion()
 }
 
 
-
-
-var questions = {
-    question1:"Commonly used data types DO NOT include:",
-    question2:"The condition in an if/else statement is enclosed within:",
-    question3:"Arrays in Javascript can be stored within:",
-    question4:"Strings values must be enclosed within _____ when being assigned to variables:",
-    question5:"A very useful tool used during web development and debugging for printing content to the debugger is:"
-};
-
-var question1 = {
-    option1:"1. strings",
-    option2:"2. booleans",
-    option3:"3. alerts",
-    option4:"4. numbers"
+function updateQuestion() {
+    showQuestion(questions[currentQuestionIndex])
 }
+
+function showQuestion(question) {
+    currentQuestion.textContent = question.question
+    question.answers.forEach(answer => {
+        var button = document.createElement("button")
+        button.innerText = answer.text
+        button.classList.add("btn", "btn-secondary", "btn-md", "m-1", "text-left")
+        button.addEventListener("click", selectAnswer)
+        answerGrid.appendChild(button)
+    })
+
+}
+
+
+function selectAnswer() {
+
+}
+
+// optionBtn.addEventListener("click", checkAnswer);
+
+
+const questions = [
+    {
+        question: "Commonly used data types DO NOT include:",
+        answers: [
+        {text: "1. strings", correct: false},
+        {text: "2. booleans", correct: false},
+        {text: "3. alerts", correct: true},
+        {text: "4. numbers", correct: false}
+    ]
+
+}
+]
+console.log(questions)
+
+
+
+
 
 
 
 
 
 /*
+
+var option0 = document.querySelector("#option0")
+var textOption0 = option0.textContent
+console.log(textOption0)
+var option1 = document.querySelector("#option1")
+var textOption1 = option1.textContent
+console.log(textOption1)
+var option2 = document.querySelector("#option2")
+var textOption2 = option2.innerHTML
+console.log(textOption2)
+var option3 = document.querySelector("#option3")
+var textOption3 = option3.textContent
+console.log(textOption3)
+
+
+
+var options = [textOption0, textOption1, textOption2, textOption3]
+console.log(options)
+
+
+function checkAnswer () {
+    var element = event.target;
+
+    if (element.matches("button") === true && element.textContent === textOption0) {
+        alert("Correct")
+
+    }
+}
+
+function updateQuestion (index) {
+    var element = event.target;
+
+    if (element.matches("button") === true) {
+    
+        for (var i=0; i<todos.length; i++) 
+
+
+
+}
+
+optionBtn.addEventListener("click", checkAnswer);
+
+*/
+
+// {
+//     question1:"Commonly used data types DO NOT include:",
+//     question2:"The condition in an if/else statement is enclosed within:",
+//     question3:"Arrays in Javascript can be stored within:",
+//     question4:"Strings values must be enclosed within _____ when being assigned to variables:",
+//     question5:"A very useful tool used during web development and debugging for printing content to the debugger is:"
+// };
+
+// var question1 = {
+//     option1:"1. strings",
+//     option2:"2. booleans",
+//     option3:"3. alerts",
+//     option4:"4. numbers"
+// }
+
+
+
+
+
+/*
+something about textContent of the button the user clicks on is equal to what is in the variable
 User clicks on start quiz button
     - Add event listener to start button to begin pagination of some sort?
     - Pagination order is welcome page, questions, summary socre/input initials page, high scores page
