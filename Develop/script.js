@@ -5,9 +5,11 @@ var currentQuestion = document.querySelector("#current-question");
 var answerGrid = document.querySelector("#answer-grid");
 var optionButtons = document.querySelector(".option-btn");
 var inputSection = document.querySelector(".input-page");
+var timeEl = document.querySelector(".seconds-left");
 
 var currentQuestionIndex;
 var currentAnswerIndex;
+var secondsLeft = 75;
 startBtn.addEventListener("click", startQuiz);
 optionButtons.addEventListener("click", updateQuestion)
 optionButtons.addEventListener("click", checkAnswer);
@@ -16,11 +18,9 @@ optionButtons.addEventListener("click", checkAnswer);
 function startQuiz () {
     startPage.style.display = "none";
     quizDiv.classList.remove("hide");
-    // option1.textContent = question1.option2;
-    // currentQuestion.textContent = questions[0].question
-    // optionButtons.textContent = questions[0].answers.innerText
     currentQuestionIndex = -1;
     updateQuestion();
+    setTime();
 }
 
 // After we start the quiz, we run the updateQuestion() function, this removes any children currently in the quizGrid, and adds new question 
@@ -33,10 +33,6 @@ function updateQuestion() {
 function navigateToInput() {
     quizDiv.classList.add("hide");
     inputSection.classList.remove("hide");
-    // var inputPage = document.createElement("p");
-    // inputPage.innerText = "Test";
-    // console.log(inputPage);
-    // inputSection.appendChild(inputPage);
 }
 
 // We pass in the current index of questions, then we set the text content of the currentQuestion to the currentindex.question in the questions object, then we create a button element and set the text of that button to the answers located at the current index of the questions object, add an event listener to the buttons in the quizGrid that checks the answer
@@ -68,19 +64,80 @@ function checkAnswer(event) {
     // Array.from(quizGrid.Children)
     // answer.textContent = question.answer
     for (var i = 0; i < answers.length; i++) {
+
     if (element.matches("button") === true && element.textContent === correctAnswers[i]) {
-        alert("correct")
         displayCorrect()
         
     }
-    else {
+    else if (element.matches("button") === true && element.textContent !== correctAnswers[i]) {
         displayIncorrect()
     }
     }
     updateQuestion()
 }
 
-function displayCorrect () {
+
+
+/*
+function checkAnswer(event) {
+    var element = event.target;
+    var answersList = questions[currentQuestionIndex].answers;
+    console.log(answersList)
+    
+
+    for (var i = 0; i < answersList.length; i++) {
+    answerState = answersList[i].response;
+    console.log(answerState)
+    
+    if (element.matches("button") === true && answerState === 1) {
+        displayCorrect();
+        console.log(answersList)
+    }
+
+    else if (element.matches("button") === true && answerState === 0) {
+        displayIncorrect();
+        secondsLeft--;
+    }
+
+    }
+    updateQuestion()
+
+
+}
+*/
+
+
+/*
+function checkAnswer(event) {
+    var element = event.target;
+    var answersList = questions[currentQuestionIndex].answers;
+    console.log(answersList)
+    var answerState = answersList.response
+    console.log(answerState)
+
+    var isCorrect = answerState.forEach(() => {
+        
+        if (element.matches("button") === true && response === 1) {
+            displayCorrect();
+            console.log(answersList)
+        }
+    
+        else if (element.matches("button") === true && response === 0) {
+            displayIncorrect();
+            secondsLeft--;
+        console.log(answer=1) 
+       
+      }
+    });
+
+    isCorrect
+    updateQuestion()
+    
+
+}
+*/
+
+function displayCorrect() {
     var correctAlert = document.querySelector(".correct-alert");
     setTimeout(function(){ 
         correctAlert.classList.remove("hide")
@@ -91,7 +148,7 @@ function displayCorrect () {
 
 }
 
-function displayIncorrect () {
+function displayIncorrect() {
     var incorrectAlert = document.querySelector(".incorrect-alert");
     setTimeout(function(){ 
         incorrectAlert.classList.remove("hide")
@@ -103,123 +160,73 @@ function displayIncorrect () {
 
 
 // If there is an answer button element inside of the answer grid, remove it; basically loop through until there are no more firstChild elements
-function resetState () {
+function resetState() {
     while (answerGrid.firstChild) {
         answerGrid.removeChild(answerGrid.firstChild)
     }
     currentQuestionIndex++
 }
 
+function setTime() {
+    var timerInterval = setInterval(function() {
+        timeEl.textContent = secondsLeft--;
+    
+        // Condition to make the function no longer run
+        if(secondsLeft === 0) {
+          // Have to set timer to a name so we know which timer to delete
+          clearInterval(timerInterval);
+          // Tell the app what to do when the timer gets to 0
+            alert("Game over")
+        }
+    
+      }, 1000);
+}
 
-const questions = [
+
+var questions = [
     {
         question: "Commonly used data types DO NOT include:",
         answers: [
-        {text: "1. strings", correct: false},
-        {text: "2. booleans", correct: false},
-        {text: "3. alerts", correct: true},
-        {text: "4. numbers", correct: false}
+        {text: "1. strings", response: 0},
+        {text: "2. booleans", response: 0},
+        {text: "3. alerts", response: 1},
+        {text: "4. numbers", response: 0}
         ]
 
     },
     {
         question: "What is 2 + 2",
         answers: [
-        {text: "1. one", correct: false},
-        {text: "2. two", correct: true},
-        {text: "3. four", correct: false},
-        {text: "4. eight", correct: false}
+        {text: "1. one", response: 0},
+        {text: "2. two", response: 1},
+        {text: "3. four", response: 0},
+        {text: "4. eight", response: 0}
         ]
 
     },
     {
         question: "Question 3",
         answers: [
-        {text: "1. blah", correct: false},
-        {text: "2. ok", correct: true},
-        {text: "3. yep", correct: false},
-        {text: "4. fine", correct: false}
+        {text: "1. blah", response: 1},
+        {text: "2. ok", response: 0},
+        {text: "3. yep", response: 0},
+        {text: "4. fine", response: 0}
         ]
 
     },
     {
         question: "Question 4",
         answers: [
-        {text: "1. red", correct: false},
-        {text: "2. blue", correct: true},
-        {text: "3. green", correct: false},
-        {text: "4. purple", correct: false}
+        {text: "1. red", response: 0},
+        {text: "2. blue", response: 0},
+        {text: "3. green", response: 1},
+        {text: "4. purple", response: 0}
         ]
 
     }
 ]
 
 var correctAnswers = ["3. alerts", "2. two", "1. blah", "4. purple"]
-
-
-console.log(questions)
-
-
-
-/*
-
-var option0 = document.querySelector("#option0")
-var textOption0 = option0.textContent
-console.log(textOption0)
-var option1 = document.querySelector("#option1")
-var textOption1 = option1.textContent
-console.log(textOption1)
-var option2 = document.querySelector("#option2")
-var textOption2 = option2.innerHTML
-console.log(textOption2)
-var option3 = document.querySelector("#option3")
-var textOption3 = option3.textContent
-console.log(textOption3)
-
-
-
-var options = [textOption0, textOption1, textOption2, textOption3]
-console.log(options)
-
-
-function checkAnswer () {
-    var element = event.target;
-
-    if (element.matches("button") === true && element.textContent === textOption0) {
-        alert("Correct")
-
-    }
-}
-
-function updateQuestion (index) {
-    var element = event.target;
-
-    if (element.matches("button") === true) {
-    
-        for (var i=0; i<todos.length; i++) 
-
-
-
-}
-
-optionBtn.addEventListener("click", checkAnswer);
-
-*/
-
-// {
-//     question1:"Commonly used data types DO NOT include:",
-//     question2:"The condition in an if/else statement is enclosed within:",
-//     question3:"Arrays in Javascript can be stored within:",
-//     question4:"Strings values must be enclosed within _____ when being assigned to variables:",
-//     question5:"A very useful tool used during web development and debugging for printing content to the debugger is:"
-// };
-
-// var question1 = {
-//     option1:"1. strings",
-//     option2:"2. booleans",
-//     option3:"3. alerts",
-//     option4:"4. numbers"
-// }
 
 
 
