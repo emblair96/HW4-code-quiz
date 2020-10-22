@@ -3,8 +3,8 @@ var startBtn = document.querySelector("#start-btn");
 var quizDiv = document.querySelector("#quiz");
 var currentQuestion = document.querySelector("#current-question");
 var answerGrid = document.querySelector("#answer-grid");
-var optionButtons = document.querySelector(".option-btn")
-var inputSection = document.querySelector(".input-page")
+var optionButtons = document.querySelector(".option-btn");
+var inputSection = document.querySelector(".input-page");
 
 var currentQuestionIndex;
 var currentAnswerIndex;
@@ -25,14 +25,14 @@ function startQuiz () {
 
 // After we start the quiz, we run the updateQuestion() function, this removes any children currently in the quizGrid, and adds new question 
 function updateQuestion() {
-    resetState()
-    showQuestion(questions[currentQuestionIndex])
+    resetState();
+    showQuestion(questions[currentQuestionIndex]);
 
 }
 
 function navigateToInput() {
     quizDiv.classList.add("hide");
-    inputSection.classList.remove("hide")
+    inputSection.classList.remove("hide");
     // var inputPage = document.createElement("p");
     // inputPage.innerText = "Test";
     // console.log(inputPage);
@@ -70,13 +70,36 @@ function checkAnswer(event) {
     for (var i = 0; i < answers.length; i++) {
     if (element.matches("button") === true && element.textContent === correctAnswers[i]) {
         alert("correct")
+        displayCorrect()
+        
     }
-    
+    else {
+        displayIncorrect()
+    }
     }
     updateQuestion()
 }
 
-// if (element.matches("button") === true && answers[i].correct === true) {
+function displayCorrect () {
+    var correctAlert = document.querySelector(".correct-alert");
+    setTimeout(function(){ 
+        correctAlert.classList.remove("hide")
+    }, 0)
+    setTimeout(function(){ 
+        correctAlert.classList.add("hide")
+    }, 1000)
+
+}
+
+function displayIncorrect () {
+    var incorrectAlert = document.querySelector(".incorrect-alert");
+    setTimeout(function(){ 
+        incorrectAlert.classList.remove("hide")
+    }, 0)
+    setTimeout(function(){ 
+        incorrectAlert.classList.add("hide")
+    }, 1000)
+}
 
 
 // If there is an answer button element inside of the answer grid, remove it; basically loop through until there are no more firstChild elements
