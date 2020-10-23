@@ -3,55 +3,62 @@ var startBtn = document.querySelector("#start-btn");
 var quizDiv = document.querySelector("#quiz");
 var currentQuestion = document.querySelector("#current-question");
 var answerGrid = document.querySelector("#answer-grid");
-var optionButtons = document.querySelector(".option-btn");
 var inputSection = document.querySelector(".input-page");
 var timeEl = document.querySelector(".seconds-left");
-var submitButton = document.querySelector(".submit-button")
-var userInput = document.querySelector("#user-input")
-var highscoresSection = document.querySelector(".highscores")
-var initialsColumn = document.querySelector(".initials-column")
-var scoreColumn = document.querySelector(".score-column")
+var userInput = document.querySelector("#user-input");
+var highscoresSection = document.querySelector(".highscores");
+var initialsColumn = document.querySelector(".initials-column");
+var scoreColumn = document.querySelector(".score-column");
+
+var optionButtons = document.querySelector(".option-btn");
+var submitButton = document.querySelector(".submit-button");
+var restartBtn = document.querySelector(".restart");
+var clearBtn = document.querySelector(".clear");
+var highscoresHyperlink = document.querySelector(".highscores-hyperlink");
 
 var currentQuestionIndex;
 var currentAnswerIndex;
 var secondsLeft = 75;
+
 startBtn.addEventListener("click", startQuiz);
-optionButtons.addEventListener("click", updateQuestion)
+optionButtons.addEventListener("click", updateQuestion);
 optionButtons.addEventListener("click", checkAnswer);
 
 var initialsArray = [];
 var scoreArray = [];
 
+init();
 
 function startQuiz () {
-    startPage.style.display = "none";
+    startPage.classList.add("hide");
     quizDiv.classList.remove("hide");
     currentQuestionIndex = -1;
     updateQuestion();
     setTime();
-}
+};
 
 // After we start the quiz, we run the updateQuestion() function, this removes any children currently in the quizGrid, and adds new question 
 function updateQuestion() {
     resetState();
     showQuestion(questions[currentQuestionIndex]);
 
-}
+};
 
 function navigateToInput() {
     quizDiv.classList.add("hide");
     inputSection.classList.remove("hide");
-    inputSection.setAttribute("data-display", true);
-}
+};
 
 function navigateToHighScore() {
     inputSection.classList.add("hide");
     highscoresSection.classList.remove("hide");
-    highscoresSection.setAttribute("data-display", true);
     displayHighScores()
-}
+};
 
 function displayHighScores() {
+    initialsColumn.innerHTML = "";
+    scoreColumn.innerHTML = "";
+
     for(var i=0; i<initialsArray.length; i++) {
         var initialsP = document.createElement("p");
         initialsP.textContent = initialsArray[i];
@@ -61,10 +68,9 @@ function displayHighScores() {
         scoreP.textContent = scoreArray[i];
         scoreColumn.append(scoreP);
       }
-}
+};
 
 // We pass in the current index of questions, then we set the text content of the currentQuestion to the currentindex.question in the questions object, then we create a button element and set the text of that button to the answers located at the current index of the questions object, add an event listener to the buttons in the quizGrid that checks the answer
-
 function showQuestion(question) {
     if (currentQuestionIndex < questions.length) {
     currentQuestion.textContent = question.question
@@ -84,10 +90,9 @@ function showQuestion(question) {
 
     }
 
-}
+};
 
 // Need to access index of answers in a for loop!!!! 
-
 function checkAnswer(event) {
     var element = event.target
     
@@ -101,7 +106,7 @@ function checkAnswer(event) {
 
     }
     updateQuestion()
-}
+};
 
 function displayCorrect() {
     var correctAlert = document.querySelector(".correct-alert");
@@ -122,8 +127,7 @@ function displayIncorrect() {
     setTimeout(function(){ 
         incorrectAlert.classList.add("hide")
     }, 1000)
-}
-
+};
 
 // If there is an answer button element inside of the answer grid, remove it; basically loop through until there are no more firstChild elements
 function resetState() {
@@ -131,7 +135,7 @@ function resetState() {
         answerGrid.removeChild(answerGrid.firstChild)
     }
     currentQuestionIndex++
-}
+};
 
 function setTime() {
     var timerInterval = setInterval(function() {
@@ -145,8 +149,28 @@ function setTime() {
         }
     
       }, 1000);
-}
+};
 
+function init() {
+    // Get stored todos from localStorage
+    // Parsing the JSON string to an object
+    var storedInitials = JSON.parse(localStorage.getItem("initials"));
+    var storedScores = JSON.parse(localStorage.getItem("score"));
+  
+    // If todos were retrieved from localStorage, update the todos array to it
+    if (storedInitials !== null || storedScores !==null) {
+      initialsArray = storedInitials;
+      scoreArray = storedScores;
+    }
+  
+    // Render todos to the DOM
+    displayHighScores();
+};
+
+function storeScores() {
+    localStorage.setItem("initials", JSON.stringify(initialsArray))
+    localStorage.setItem("score", JSON.stringify(scoreArray))
+};
 
 submitButton.addEventListener("click", function(event) {
     event.preventDefault();
@@ -157,14 +181,35 @@ submitButton.addEventListener("click", function(event) {
     initialsArray.push(userInitials)
     scoreArray.push(userScore)
 
-    localStorage.setItem("initials", userInitials)
-    localStorage.setItem("score", secondsLeft)
+    console.log(initialsArray)
 
     userInput.value = ""
 
-    navigateToHighScore(); 
+    storeScores();
+    navigateToHighScore();
+     
 });
 
+restartBtn.addEventListener("click", function(event) {
+    event.preventDefault();
+    startPage.classList.remove("hide");
+    highscoresSection.classList.add("hide");
+});
+
+clearBtn.addEventListener("click", function(event) {
+    event.preventDefault();
+    localStorage.clear();
+    initialsColumn.innerHTML = "";
+    scoreColumn.innerHTML = "";
+});
+
+highscoresHyperlink.addEventListener("click", function(event) {
+    quizDiv.classList.add("hide");
+    startPage.classList.add("hide");
+    inputSection.classList.add("hide");
+    highscoresSection.classList.remove("hide");
+    highscoresHyperlink.setAttribute("data-click", true);
+});
 
 var questions = [
     {
