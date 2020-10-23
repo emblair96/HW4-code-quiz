@@ -6,6 +6,11 @@ var answerGrid = document.querySelector("#answer-grid");
 var optionButtons = document.querySelector(".option-btn");
 var inputSection = document.querySelector(".input-page");
 var timeEl = document.querySelector(".seconds-left");
+var submitButton = document.querySelector(".submit-button")
+var userInput = document.querySelector("#user-input")
+var highscoresSection = document.querySelector(".highscores")
+var initialsColumn = document.querySelector(".initials-column")
+var scoreColumn = document.querySelector(".score-column")
 
 var currentQuestionIndex;
 var currentAnswerIndex;
@@ -14,8 +19,8 @@ startBtn.addEventListener("click", startQuiz);
 optionButtons.addEventListener("click", updateQuestion)
 optionButtons.addEventListener("click", checkAnswer);
 
-var userInt = [];
-var userTimeLeft = [];
+var initialsArray = [];
+var scoreArray = [];
 
 
 function startQuiz () {
@@ -36,8 +41,26 @@ function updateQuestion() {
 function navigateToInput() {
     quizDiv.classList.add("hide");
     inputSection.classList.remove("hide");
-    inputSection.setAttribute("data-display", true)
-    console.log(inputSection.getAttribute("data-display"))
+    inputSection.setAttribute("data-display", true);
+}
+
+function navigateToHighScore() {
+    inputSection.classList.add("hide");
+    highscoresSection.classList.remove("hide");
+    highscoresSection.setAttribute("data-display", true);
+    displayHighScores()
+}
+
+function displayHighScores() {
+    for(var i=0; i<initialsArray.length; i++) {
+        var initialsP = document.createElement("p");
+        initialsP.textContent = initialsArray[i];
+        initialsColumn.append(initialsP);
+
+        var scoreP = document.createElement("p");
+        scoreP.textContent = scoreArray[i];
+        scoreColumn.append(scoreP);
+      }
 }
 
 // We pass in the current index of questions, then we set the text content of the currentQuestion to the currentindex.question in the questions object, then we create a button element and set the text of that button to the answers located at the current index of the questions object, add an event listener to the buttons in the quizGrid that checks the answer
@@ -74,6 +97,8 @@ function checkAnswer(event) {
     }
     else if (element.matches("button") === true && Number(element.value) === 0) {
         displayIncorrect()
+        secondsLeft = secondsLeft - 10
+
     }
     updateQuestion()
 }
@@ -117,15 +142,28 @@ function setTime() {
           // Have to set timer to a name so we know which timer to delete
           clearInterval(timerInterval);
           // Tell the app what to do when the timer gets to 0
-            alert("Game over")
         }
     
       }, 1000);
 }
 
-function storeUserInfo () {
-    
-}
+
+submitButton.addEventListener("click", function(event) {
+    event.preventDefault();
+
+    var userInitials = userInput.value.trim();
+    var userScore = secondsLeft
+
+    initialsArray.push(userInitials)
+    scoreArray.push(userScore)
+
+    localStorage.setItem("initials", userInitials)
+    localStorage.setItem("score", secondsLeft)
+
+    userInput.value = ""
+
+    navigateToHighScore(); 
+});
 
 
 var questions = [
@@ -170,10 +208,6 @@ var questions = [
 
     }
 ]
-
-var correctAnswers = ["3. alerts", "2. two", "1. blah", "4. purple"]
-
-
 
 
 

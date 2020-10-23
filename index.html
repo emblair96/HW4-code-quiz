@@ -40,13 +40,26 @@
         </section> 
        
         <!-- Input page -->
-        <section class="container col-md-6 pt-5 hide input-page" id="results">
+        <section class="container col-md-6 pt-5 input-page hide" id="results">
             <h3 class="text-center">Input page</h3>
+            <form>
+                    <div class="input-group mb-3">
+                        <input placeholder="Enter your initials" type="text" id="user-input" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" />
+                      </div>
+                <button class="btn btn-secondary submit-button">Submit</button>
+            </form>
         </section>
 
         <!-- Highscores page -->
-        <section class="container col-md-6 pt-5">
+        <section class="container col-md-6 pt-5 highscores hide">
             <h3>Highscores</h3>
+            <div class="row">
+                <div class="col-md-3 initials-column">                    <h5>Initials</h5>
+                </div>
+                <div class="col-md-3 score-column">
+                    <h5>Score</h5>
+                </div>
+            </div>
             <button type="button" id="btn1" class="btn btn-secondary btn-md m-1 text-left option-btn">Return to Start</button>
             <button type="button" id="btn1" class="btn btn-secondary btn-md m-1 text-left option-btn">Clear Highscores</button>
         </section>
