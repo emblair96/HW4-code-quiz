@@ -14,6 +14,9 @@ startBtn.addEventListener("click", startQuiz);
 optionButtons.addEventListener("click", updateQuestion)
 optionButtons.addEventListener("click", checkAnswer);
 
+var userInt = [];
+var userTimeLeft = [];
+
 
 function startQuiz () {
     startPage.style.display = "none";
@@ -33,6 +36,8 @@ function updateQuestion() {
 function navigateToInput() {
     quizDiv.classList.add("hide");
     inputSection.classList.remove("hide");
+    inputSection.setAttribute("data-display", true)
+    console.log(inputSection.getAttribute("data-display"))
 }
 
 // We pass in the current index of questions, then we set the text content of the currentQuestion to the currentindex.question in the questions object, then we create a button element and set the text of that button to the answers located at the current index of the questions object, add an event listener to the buttons in the quizGrid that checks the answer
@@ -41,13 +46,15 @@ function showQuestion(question) {
     if (currentQuestionIndex < questions.length) {
     currentQuestion.textContent = question.question
     question.answers.forEach(answer => {
-        var button = document.createElement("button")
+        var button = document.createElement("button") 
         button.innerText = answer.text
+        button.value = answer.response
         button.classList.add("btn", "btn-secondary", "btn-md", "m-1", "text-left")
         button.addEventListener("click", checkAnswer)
         answerGrid.appendChild(button)
         
     })
+
 }
     else {
         navigateToInput()
@@ -60,82 +67,16 @@ function showQuestion(question) {
 
 function checkAnswer(event) {
     var element = event.target
-    var answers = questions[currentQuestionIndex].answers
-    // Array.from(quizGrid.Children)
-    // answer.textContent = question.answer
-    for (var i = 0; i < answers.length; i++) {
-
-    if (element.matches("button") === true && element.textContent === correctAnswers[i]) {
+    
+    if (element.matches("button") === true && Number(element.value) === 1) {
         displayCorrect()
         
     }
-    else if (element.matches("button") === true && element.textContent !== correctAnswers[i]) {
+    else if (element.matches("button") === true && Number(element.value) === 0) {
         displayIncorrect()
     }
-    }
     updateQuestion()
 }
-
-
-
-/*
-function checkAnswer(event) {
-    var element = event.target;
-    var answersList = questions[currentQuestionIndex].answers;
-    console.log(answersList)
-    
-
-    for (var i = 0; i < answersList.length; i++) {
-    answerState = answersList[i].response;
-    console.log(answerState)
-    
-    if (element.matches("button") === true && answerState === 1) {
-        displayCorrect();
-        console.log(answersList)
-    }
-
-    else if (element.matches("button") === true && answerState === 0) {
-        displayIncorrect();
-        secondsLeft--;
-    }
-
-    }
-    updateQuestion()
-
-
-}
-*/
-
-
-/*
-function checkAnswer(event) {
-    var element = event.target;
-    var answersList = questions[currentQuestionIndex].answers;
-    console.log(answersList)
-    var answerState = answersList.response
-    console.log(answerState)
-
-    var isCorrect = answerState.forEach(() => {
-        
-        if (element.matches("button") === true && response === 1) {
-            displayCorrect();
-            console.log(answersList)
-        }
-    
-        else if (element.matches("button") === true && response === 0) {
-            displayIncorrect();
-            secondsLeft--;
-        console.log(answer=1) 
-       
-      }
-    });
-
-    isCorrect
-    updateQuestion()
-    
-
-}
-*/
 
 function displayCorrect() {
     var correctAlert = document.querySelector(".correct-alert");
@@ -169,10 +110,10 @@ function resetState() {
 
 function setTime() {
     var timerInterval = setInterval(function() {
-        timeEl.textContent = secondsLeft--;
-    
+        timeEl.textContent = "Time: " + secondsLeft--;
+        
         // Condition to make the function no longer run
-        if(secondsLeft === 0) {
+        if(secondsLeft === 0 || currentQuestionIndex > 3) {
           // Have to set timer to a name so we know which timer to delete
           clearInterval(timerInterval);
           // Tell the app what to do when the timer gets to 0
@@ -180,6 +121,10 @@ function setTime() {
         }
     
       }, 1000);
+}
+
+function storeUserInfo () {
+    
 }
 
 
