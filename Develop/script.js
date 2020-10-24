@@ -31,12 +31,10 @@ var scoreArray = [];
 function startQuiz () {
     startPage.classList.add("hide");
     quizDiv.classList.remove("hide");
-    currentQuestionIndex = 0;
+    currentQuestionIndex = -1;
     updateQuestion();
     setTime();
 };
-
-init();
 
 // After we start the quiz, we run the updateQuestion() function, this removes any children currently in the quizGrid, and adds new question 
 function updateQuestion() {
@@ -212,6 +210,8 @@ highscoresHyperlink.addEventListener("click", function(event) {
     inputSection.classList.add("hide");
     highscoresSection.classList.remove("hide");
 });
+
+init();
 
 var questions = [
     {
