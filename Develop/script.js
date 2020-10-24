@@ -1,3 +1,4 @@
+// Element varaibles
 var startPage = document.querySelector("#start-page");
 var startBtn = document.querySelector("#start-btn");
 var quizDiv = document.querySelector("#quiz");
@@ -10,6 +11,7 @@ var highscoresSection = document.querySelector(".highscores");
 var initialsColumn = document.querySelector(".initials-column");
 var scoreColumn = document.querySelector(".score-column");
 
+// Button variables
 var optionButtons = document.querySelector(".option-btn");
 var submitButton = document.querySelector(".submit-button");
 var restartBtn = document.querySelector(".restart");
@@ -194,11 +196,13 @@ restartBtn.addEventListener("click", function(event) {
     event.preventDefault();
     startPage.classList.remove("hide");
     highscoresSection.classList.add("hide");
+    inputSection.classList.add("hide");
 });
 
 clearBtn.addEventListener("click", function(event) {
     event.preventDefault();
     localStorage.clear();
+    inputSection.classList.add("hide");
     initialsColumn.innerHTML = "";
     scoreColumn.innerHTML = "";
 });
@@ -208,7 +212,6 @@ highscoresHyperlink.addEventListener("click", function(event) {
     startPage.classList.add("hide");
     inputSection.classList.add("hide");
     highscoresSection.classList.remove("hide");
-    highscoresHyperlink.setAttribute("data-click", true);
 });
 
 var questions = [
