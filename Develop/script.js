@@ -28,8 +28,6 @@ optionButtons.addEventListener("click", checkAnswer);
 var initialsArray = [];
 var scoreArray = [];
 
-init();
-
 function startQuiz () {
     startPage.classList.add("hide");
     quizDiv.classList.remove("hide");
@@ -37,6 +35,8 @@ function startQuiz () {
     updateQuestion();
     setTime();
 };
+
+init();
 
 // After we start the quiz, we run the updateQuestion() function, this removes any children currently in the quizGrid, and adds new question 
 function updateQuestion() {
@@ -155,8 +155,8 @@ function setTime() {
 function init() {
     // Get stored todos from localStorage
     // Parsing the JSON string to an object
-    var storedInitials = JSON.parse(localStorage.getItem("initials"));
-    var storedScores = JSON.parse(localStorage.getItem("score"));
+    var storedInitials = localStorage.getItem("initials");
+    var storedScores = localStorage.getItem("score");
   
     // If todos were retrieved from localStorage, update the todos array to it
     if (storedInitials !== null || storedScores !==null) {
