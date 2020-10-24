@@ -18,7 +18,7 @@ var restartBtn = document.querySelector(".restart");
 var clearBtn = document.querySelector(".clear");
 var highscoresHyperlink = document.querySelector(".highscores-hyperlink");
 
-var currentQuestionIndex;
+var currentQuestionIndex = 0;
 var secondsLeft = 75;
 
 startBtn.addEventListener("click", startQuiz);
@@ -179,8 +179,6 @@ submitButton.addEventListener("click", function(event) {
 
     initialsArray.push(userInitials)
     scoreArray.push(userScore)
-
-    console.log(initialsArray)
 
     userInput.value = ""
 
