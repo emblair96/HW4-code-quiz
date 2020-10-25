@@ -5,7 +5,7 @@ In this assignment, I created a basic coding quiz where the user automatically a
 
 ### Areas for improvement
 
-* I was not able to determine how to get the time to stop counting down when using the "View Highscores" hyperlink in the upper left-hand corner.  Instead, I just set the text content to an empty string.  In the future, I would like to learn how to correctly stop the time from decrementing rather than removing it entirely.
+* I was not able to determine how to get the time to stop counting down when using the "View Highscores" hyperlink in the upper left-hand corner if the user had already started the quiz.  I would like to learn how to correctly stop the setTime in the addEventListener for the View Highscores element.
 
 * I did not have time to attempt to have the high scores display in numerical order from highest to lowest.  This is something I would like to experiment with as a continued learning experience.  
 
