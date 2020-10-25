@@ -32,6 +32,8 @@ function startQuiz () {
     startPage.classList.add("hide");
     quizDiv.classList.remove("hide");
     currentQuestionIndex = -1;
+    quizDiv.setAttribute("data-display", true)
+    secondsLeft = 75;
     updateQuestion();
     setTime();
 };
@@ -141,7 +143,7 @@ function setTime() {
         timeEl.textContent = "Time: " + secondsLeft--;
         
         // Condition to make the function no longer run
-        if(secondsLeft === 0 || currentQuestionIndex > 3 || quizDiv.style.display === none) {
+        if(secondsLeft === 0 || currentQuestionIndex > 3 || quizDiv.getAttribute("data-display") === true) {
           // Have to set timer to a name so we know which timer to delete
           clearInterval(timerInterval);
           // Tell the app what to do when the timer gets to 0
@@ -223,32 +225,32 @@ var questions = [
 
     },
     {
-        question: "What is 2 + 2",
+        question: "Which of the following string methods will remove extra white space?",
         answers: [
-        {text: "1. one", response: 0},
-        {text: "2. two", response: 1},
-        {text: "3. four", response: 0},
-        {text: "4. eight", response: 0}
+        {text: "1. .concat()", response: 0},
+        {text: "2. .trim()", response: 1},
+        {text: "3. .splice()", response: 0},
+        {text: "4. .split()", response: 0}
         ]
 
     },
     {
-        question: "Question 3",
+        question: "Which of the following is NOT way to define a variable in JavaScript?",
         answers: [
-        {text: "1. blah", response: 1},
-        {text: "2. ok", response: 0},
-        {text: "3. yep", response: 0},
-        {text: "4. fine", response: 0}
+        {text: "1. assign", response: 1},
+        {text: "2. var", response: 0},
+        {text: "3. const", response: 0},
+        {text: "4. let", response: 0}
         ]
 
     },
     {
-        question: "Question 4",
+        question: "What is the HTML tag under which one can write the JavaScript code?",
         answers: [
-        {text: "1. red", response: 0},
-        {text: "2. blue", response: 0},
-        {text: "3. green", response: 1},
-        {text: "4. purple", response: 0}
+        {text: "1. <javascript>", response: 0},
+        {text: "2. <scripted>", response: 0},
+        {text: "3. <script>", response: 1},
+        {text: "4. <js>", response: 0}
         ]
 
     }

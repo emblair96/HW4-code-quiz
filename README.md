@@ -1,14 +1,14 @@
 # HW4-code-quiz
 
 ## Description of work completed
-In this assignment, I created a basic coding quiz where the user automatically advances through a series of questions and answers while timed.  They are alerted if they got a question correct or incorrect immediately.  If htey choose an incorrect answer, the time decrements at a faster pace than if they are correct.  At the end of the quiz, they can enter their intials to be included on the highscores page.  A demo of the site can be viewed [here](Assets/04-web-apis-homework-demo.gif) and the live site can be found [here](https://emblair96.github.io/HW4-code-quiz/).  
+In this assignment, I created a basic coding quiz where the user automatically advances through a series of questions and answers while timed.  They are alerted if they got a question correct or incorrect immediately.  If they choose an incorrect answer, the time decrements at a faster pace than if they are correct.  At the end of the quiz, they can enter their intials to be included on the highscores page.  A demo of the site can be viewed [here](Assets/04-web-apis-homework-demo.gif) and the live site can be found [here](https://emblair96.github.io/HW4-code-quiz/).  
 
 ### Areas for improvement
 
 
 ### What I learned from this assignment
 
-* Continued to build on my understanding of functions
+* Continued to build on my understanding of functions, as well as local storage
 
 * Discovered the usefulness for adding and removing classes to display/hide content
 
