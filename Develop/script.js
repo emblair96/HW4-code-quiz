@@ -143,7 +143,7 @@ function setTime() {
         timeEl.textContent = "Time: " + secondsLeft--;
         
         // Condition to make the function no longer run
-        if(secondsLeft === 0 || currentQuestionIndex > 3 || quizDiv.getAttribute("data-display") === true) {
+        if(secondsLeft === 0 || currentQuestionIndex > 3) {
           // Have to set timer to a name so we know which timer to delete
           clearInterval(timerInterval);
           // Tell the app what to do when the timer gets to 0
@@ -209,6 +209,7 @@ highscoresHyperlink.addEventListener("click", function(event) {
     startPage.classList.add("hide");
     inputSection.classList.add("hide");
     highscoresSection.classList.remove("hide");
+    timeEl.textContent = "";
 });
 
 init();
