@@ -18,21 +18,25 @@ var restartBtn = document.querySelector(".restart");
 var clearBtn = document.querySelector(".clear");
 var highscoresHyperlink = document.querySelector(".highscores-hyperlink");
 
+// Starting points for timer & question index to be able to display appropriate question on the page
 var currentQuestionIndex = 0;
 var secondsLeft = 75;
 
+// Event listeners for various buttons
 startBtn.addEventListener("click", startQuiz);
 optionButtons.addEventListener("click", updateQuestion);
 optionButtons.addEventListener("click", checkAnswer);
 
+// Arrays which will be used to store data to local storage
 var initialsArray = [];
 var scoreArray = [];
 
+// Start the quiz (i.e. hide/show correct divs, start tiemr, etc.)
 function startQuiz () {
     startPage.classList.add("hide");
     quizDiv.classList.remove("hide");
     currentQuestionIndex = -1;
-    quizDiv.setAttribute("data-display", true)
+    quizDiv.setAttribute("data-display", true);
     secondsLeft = 75;
     updateQuestion();
     setTime();
@@ -45,17 +49,20 @@ function updateQuestion() {
 
 };
 
+// Needed to hide/show correct content when navigating to initials input page
 function navigateToInput() {
     quizDiv.classList.add("hide");
     inputSection.classList.remove("hide");
 };
 
+// Needed to hide/show correct content when navigating to highscores page
 function navigateToHighScore() {
     inputSection.classList.add("hide");
     highscoresSection.classList.remove("hide");
-    displayHighScores()
+    displayHighScores();
 };
 
+// Append user initials and final time left on timer to highscores page
 function displayHighScores() {
     initialsColumn.innerHTML = "";
     scoreColumn.innerHTML = "";
@@ -93,7 +100,7 @@ function showQuestion(question) {
 
 };
 
-// Need to access index of answers in a for loop!!!! 
+// Check to see if answers are correct or not by checking value of response from the Q&A object & change to the next question 
 function checkAnswer(event) {
     var element = event.target
     
@@ -109,6 +116,7 @@ function checkAnswer(event) {
     updateQuestion()
 };
 
+// Correct alert
 function displayCorrect() {
     var correctAlert = document.querySelector(".correct-alert");
     setTimeout(function(){ 
@@ -118,8 +126,9 @@ function displayCorrect() {
         correctAlert.classList.add("hide")
     }, 1000)
 
-}
+};
 
+// Incorrect alert
 function displayIncorrect() {
     var incorrectAlert = document.querySelector(".incorrect-alert");
     setTimeout(function(){ 
@@ -138,6 +147,7 @@ function resetState() {
     currentQuestionIndex++
 };
 
+// Timer in upper right-hand corner
 function setTime() {
     var timerInterval = setInterval(function() {
         timeEl.textContent = "Time: " + secondsLeft--;
@@ -152,11 +162,11 @@ function setTime() {
       }, 1000);
 };
 
+// Get stored initials/scores from localStorage
 function init() {
-    // Get stored todos from localStorage
     // Parsing the JSON string to an object
-    var storedInitials = localStorage.getItem("initials");
-    var storedScores = localStorage.getItem("score");
+    var storedInitials = JSON.parse(localStorage.getItem("initials"));
+    var storedScores = JSON.parse(localStorage.getItem("score"));
   
     // If todos were retrieved from localStorage, update the todos array to it
     if (storedInitials !== null || storedScores !==null) {
@@ -168,11 +178,13 @@ function init() {
     displayHighScores();
 };
 
+// Set item in local storage
 function storeScores() {
     localStorage.setItem("initials", JSON.stringify(initialsArray))
     localStorage.setItem("score", JSON.stringify(scoreArray))
 };
 
+// Store score and intiials to local storage wehn click submit
 submitButton.addEventListener("click", function(event) {
     event.preventDefault();
 
@@ -189,6 +201,7 @@ submitButton.addEventListener("click", function(event) {
      
 });
 
+// Button for user to return to start of quiz from highscores page
 restartBtn.addEventListener("click", function(event) {
     event.preventDefault();
     startPage.classList.remove("hide");
@@ -196,24 +209,29 @@ restartBtn.addEventListener("click", function(event) {
     inputSection.classList.add("hide");
 });
 
+// Button for user to clear highscores from local storage
 clearBtn.addEventListener("click", function(event) {
     event.preventDefault();
     localStorage.clear();
     inputSection.classList.add("hide");
     initialsColumn.innerHTML = "";
     scoreColumn.innerHTML = "";
+    initialsArray = [];
+    scoreArray = [];
 });
 
+// Link for user to navigate directly to highscores page
 highscoresHyperlink.addEventListener("click", function(event) {
     quizDiv.classList.add("hide");
     startPage.classList.add("hide");
     inputSection.classList.add("hide");
     highscoresSection.classList.remove("hide");
-    timeEl.textContent = "";
+    //timeEl.textContent = "";
 });
 
 init();
 
+// Q&A object for quiz content
 var questions = [
     {
         question: "Commonly used data types DO NOT include:",
@@ -255,4 +273,4 @@ var questions = [
         ]
 
     }
-]
+];
