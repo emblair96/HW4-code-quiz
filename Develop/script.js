@@ -31,7 +31,7 @@ optionButtons.addEventListener("click", checkAnswer);
 var initialsArray = [];
 var scoreArray = [];
 
-// Start the quiz (i.e. hide/show correct divs, start tiemr, etc.)
+// Start the quiz (i.e. hide/show correct divs, start timer, etc.)
 function startQuiz () {
     startPage.classList.add("hide");
     quizDiv.classList.remove("hide");
@@ -75,27 +75,26 @@ function displayHighScores() {
         var scoreP = document.createElement("p");
         scoreP.textContent = scoreArray[i];
         scoreColumn.append(scoreP);
-      }
+      };
 };
 
 // We pass in the current index of questions, then we set the text content of the currentQuestion to the currentindex.question in the questions object, then we create a button element and set the text of that button to the answers located at the current index of the questions object, add an event listener to the buttons in the quizGrid that checks the answer
 function showQuestion(question) {
     if (currentQuestionIndex < questions.length) {
-    currentQuestion.textContent = question.question
-    question.answers.forEach(answer => {
-        var button = document.createElement("button") 
-        button.innerText = answer.text
-        button.value = answer.response
-        button.classList.add("btn", "btn-secondary", "btn-md", "m-1", "text-left")
-        button.addEventListener("click", checkAnswer)
-        answerGrid.appendChild(button)
+        currentQuestion.textContent = question.question
+        question.answers.forEach(answer => {
+            var button = document.createElement("button");
+            button.innerText = answer.text;
+            button.value = answer.response;
+            button.classList.add("btn", "btn-secondary", "btn-md", "m-1", "text-left");
+            button.addEventListener("click", checkAnswer);
+            answerGrid.appendChild(button);
         
     })
 
-}
+    }
     else {
-        navigateToInput()
-
+        navigateToInput();
     }
 
 };
@@ -142,9 +141,9 @@ function displayIncorrect() {
 // If there is an answer button element inside of the answer grid, remove it; basically loop through until there are no more firstChild elements
 function resetState() {
     while (answerGrid.firstChild) {
-        answerGrid.removeChild(answerGrid.firstChild)
+        answerGrid.removeChild(answerGrid.firstChild);
     }
-    currentQuestionIndex++
+    currentQuestionIndex++;
 };
 
 // Timer in upper right-hand corner
@@ -152,11 +151,10 @@ function setTime() {
     var timerInterval = setInterval(function() {
         timeEl.textContent = "Time: " + secondsLeft--;
         
-        // Condition to make the function no longer run
-        if(secondsLeft === 0 || currentQuestionIndex > 3) {
+        // Conditions to make the function no longer run
+        if(secondsLeft === 0 || currentQuestionIndex > (questions.length - 1) || highscoresSection.getAttribute("data-display") === "true") {
           // Have to set timer to a name so we know which timer to delete
           clearInterval(timerInterval);
-          // Tell the app what to do when the timer gets to 0
         }
     
       }, 1000);
@@ -168,33 +166,33 @@ function init() {
     var storedInitials = JSON.parse(localStorage.getItem("initials"));
     var storedScores = JSON.parse(localStorage.getItem("score"));
   
-    // If todos were retrieved from localStorage, update the todos array to it
+    // If initials/scores were retrieved from localStorage, update the todos array to it
     if (storedInitials !== null || storedScores !==null) {
       initialsArray = storedInitials;
       scoreArray = storedScores;
     }
   
-    // Render todos to the DOM
+    // Render highscores to the DOM
     displayHighScores();
 };
 
 // Set item in local storage
 function storeScores() {
-    localStorage.setItem("initials", JSON.stringify(initialsArray))
-    localStorage.setItem("score", JSON.stringify(scoreArray))
+    localStorage.setItem("initials", JSON.stringify(initialsArray));
+    localStorage.setItem("score", JSON.stringify(scoreArray));
 };
 
-// Store score and intiials to local storage wehn click submit
+// Store score and intiials to local storage when click submit
 submitButton.addEventListener("click", function(event) {
     event.preventDefault();
 
     var userInitials = userInput.value.trim();
     var userScore = secondsLeft
 
-    initialsArray.push(userInitials)
-    scoreArray.push(userScore)
+    initialsArray.push(userInitials);
+    scoreArray.push(userScore);
 
-    userInput.value = ""
+    userInput.value = "";
 
     storeScores();
     navigateToHighScore();
@@ -207,12 +205,12 @@ restartBtn.addEventListener("click", function(event) {
     startPage.classList.remove("hide");
     highscoresSection.classList.add("hide");
     inputSection.classList.add("hide");
+    highscoresSection.setAttribute("data-display", "false");
 });
 
 // Button for user to clear highscores from local storage
 clearBtn.addEventListener("click", function(event) {
     event.preventDefault();
-    localStorage.clear();
     inputSection.classList.add("hide");
     initialsColumn.innerHTML = "";
     scoreColumn.innerHTML = "";
@@ -226,6 +224,13 @@ highscoresHyperlink.addEventListener("click", function(event) {
     startPage.classList.add("hide");
     inputSection.classList.add("hide");
     highscoresSection.classList.remove("hide");
+    highscoresSection.setAttribute("data-display", "true");
+    var timerInterval = setInterval(function() {
+        
+          clearInterval(timerInterval);
+
+    
+      }, 1000);
     //timeEl.textContent = "";
 });
 
